@@ -1,9 +1,15 @@
 import React from 'react'
+import { Route } from 'react-router-dom'
+import Home from 'components/Home'
+import Posts from 'components/Posts'
 
 class App extends React.Component {
   render() {
     return (
-      <div>this is the app</div>
+      <div>
+        <Route exact path="/" component={Home} />
+        <Route path="/posts" component={Posts} />
+      </div>
     )
   }
 }
