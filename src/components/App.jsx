@@ -24,8 +24,10 @@ class App extends React.Component {
     return (
       <div>
         <HeaderNav />
-        <Route exact path="/" component={Home} />
-        <Route path="/posts" component={Posts} />
+        <section className="app-wrapper">
+          <Route exact path="/" component={Home} />
+          <Route path="/posts" component={Posts} />
+        </section>
       </div>
     )
   }
