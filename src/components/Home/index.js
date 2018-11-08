@@ -1,10 +1,12 @@
 import React from 'react'
+import HeaderNav from 'components/common/HeaderNav'
 
 class Home extends React.Component {
   render() {
     return (
       <div>
-        this is home
+        <HeaderNav />
+        <p>home</p>
       </div>
     )
   }
