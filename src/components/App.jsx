@@ -5,6 +5,8 @@ import firebaseApp from 'utils/firebase'
 
 import Home from 'components/Home'
 import Posts from 'components/Posts'
+import HeaderNav from 'components/common/HeaderNav'
+import "assets/styles/app.scss"
 
 class App extends React.Component {
 
@@ -21,6 +23,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <HeaderNav />
         <Route exact path="/" component={Home} />
         <Route path="/posts" component={Posts} />
       </div>
