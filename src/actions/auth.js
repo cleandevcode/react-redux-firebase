@@ -19,7 +19,6 @@ export const logout = () => dispatch => {
   firebase.auth().signOut().then(function() {
     dispatch(changeAuth(false))
   }).catch(function(error) {
-    console.log(error.code, error.message)
     alerts.error(error.message)
   })
 }
