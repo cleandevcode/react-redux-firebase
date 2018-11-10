@@ -1,9 +1,10 @@
 import React from 'react'
+import { Container } from 'semantic-ui-react'
 
 class Home extends React.Component {
   render() {
     return (
-      <div>
+      <Container>
         <h2>Home</h2>
         <div>
           <h3>Lorem Ipsum Dolor</h3>
@@ -12,7 +13,7 @@ class Home extends React.Component {
           <p>Donec nec dolor erat, condimentum sagittis sem. Praesent porttitor porttitor risus, dapibus rutrum ipsum gravida et. Integer lectus nisi, facilisis sit amet eleifend nec, pharetra ut augue. Integer quam nunc, consequat nec egestas ac, volutpat ac nisi.</p>
           <p>Sed consectetur dignissim dignissim. Donec pretium est sit amet ipsum fringilla feugiat. Aliquam erat volutpat. Maecenas scelerisque, orci sit amet cursus tincidunt, libero nisl eleifend tortor, vitae cursus risus mauris vitae nisi. Cras laoreet ultrices ligula eget tempus.</p>
         </div>
-      </div>
+      </Container>
     )
   }
 }
