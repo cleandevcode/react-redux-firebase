@@ -5,6 +5,9 @@ import * as types from 'actions/types'
 export const registerUser = (email, password) => dispatch => {
   firebase.auth()
     .createUserWithEmailAndPassword(email, password)
+    .then(res => {
+      dispatch(changeAuth(true))
+    })
     .catch(error => {
       alerts.error(error.message)
     })
