@@ -3,14 +3,14 @@ import * as alerts from 'utils/alerts'
 import * as types from 'actions/types'
 
 export const registerUser = (email, password) => dispatch => {
-  firebase.auth()
+  return firebase.auth()
     .createUserWithEmailAndPassword(email, password)
     .then(res => {
       dispatch(changeAuth(true))
-      alerts.success('Successfully registered!')
+      // alerts.success('Successfully registered!')
     })
     .catch(error => {
-      alerts.error(error.message)
+      // alerts.error(error.message)
     })
 }
 
