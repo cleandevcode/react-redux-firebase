@@ -6,6 +6,7 @@ import firebaseApp from 'utils/firebase'
 import Home from 'components/Home'
 import Posts from 'components/Posts'
 import HeaderNav from 'components/common/HeaderNav'
+import SignUp from 'components/auth/SignUp'
 import "assets/styles/app.scss"
 
 class App extends React.Component {
@@ -27,6 +28,7 @@ class App extends React.Component {
         <section className="app-wrapper">
           <Route exact path="/" component={Home} />
           <Route path="/posts" component={Posts} />
+          <Route path="/signup" component={SignUp} />
         </section>
       </div>
     )
