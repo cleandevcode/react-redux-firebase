@@ -7,6 +7,7 @@ export const registerUser = (email, password) => dispatch => {
     .createUserWithEmailAndPassword(email, password)
     .then(res => {
       dispatch(changeAuth(true))
+      alerts.success('Successfully registered!')
     })
     .catch(error => {
       alerts.error(error.message)

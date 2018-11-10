@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { ToastContainer, Zoom } from 'react-toastify';
+import { ToastContainer, Zoom } from 'react-toastify'
 import firebase from 'firebase/app'
 
 import Home from 'components/Home'
