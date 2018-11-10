@@ -1,24 +1,36 @@
 import React from 'react'
 import { Grid, Container, Button, Form } from 'semantic-ui-react'
-// react-redux-firebase redux-firestore redux-auth-wrapper ???
+import { connect } from 'react-redux'
+
+// Connect to redux
+const enhance = connect(
+  ({ firebase: { auth, profile } }) => ({
+    auth,
+    profile
+  })
+)
 
 class SignUp extends React.Component {
 
+  handleSubmit = ({ target }) => {
+    console.log('email', target.elements.email.value)
+    console.log('password', target.elements.password.value)
+  }
+
   render() {
-    const username = ''
     return (
       <Container>
         <Grid centered columns={2}>
           <Grid.Column>
             <h3>Sign Up</h3>
-            <Form>
+            <Form onSubmit={this.handleSubmit}>
               <Form.Field>
                 <label>Email</label>
-                <input placeholder='Enter email...' />
+                <input name="email" placeholder='Enter email...' />
               </Form.Field>
               <Form.Field>
                 <label>Password</label>
-                <input placeholder='Enter password...' />
+                <input name="password" placeholder='Enter password...' />
               </Form.Field>
               <Button type='submit'>Submit</Button>
             </Form>
@@ -29,4 +41,4 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp
+export default enhance(SignUp)
