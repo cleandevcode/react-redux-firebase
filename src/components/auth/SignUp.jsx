@@ -1,20 +1,30 @@
 import React from 'react'
+import { Grid, Container, Button, Form } from 'semantic-ui-react'
+// react-redux-firebase redux-firestore redux-auth-wrapper ???
 
 class SignUp extends React.Component {
-
-  handleInputChange = event => {
-
-  }
 
   render() {
     const username = ''
     return (
-      <div className="auth-wrapper">
-        <h3>Sign Up</h3>
-        <form>
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+      <Container>
+        <Grid centered columns={2}>
+          <Grid.Column>
+            <h3>Sign Up</h3>
+            <Form>
+              <Form.Field>
+                <label>Email</label>
+                <input placeholder='Enter email...' />
+              </Form.Field>
+              <Form.Field>
+                <label>Password</label>
+                <input placeholder='Enter password...' />
+              </Form.Field>
+              <Button type='submit'>Submit</Button>
+            </Form>
+          </Grid.Column>
+        </Grid>
+      </Container>
     )
   }
 }
