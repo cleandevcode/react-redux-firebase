@@ -1,7 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose } from 'redux'
-import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
+import { createStore, applyMiddleware } from 'redux'
 import reduxThunk from 'redux-thunk'
 import reducers from 'reducers'
 import firebase from 'firebase/app'
@@ -18,32 +17,19 @@ const firebaseConfig = {
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
 }
-const rrfConfig = {
-  userProfile: 'users',
-  useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
-}
 
 // Initialize firebase instance
 firebase.initializeApp(firebaseConfig)
 
-// Initialize other services on firebase instance
-// firebase.firestore() // <- needed if using firestore
-// firebase.functions() // <- needed if using httpsCallable
-
-// Add reactReduxFirebase enhancer when making store creator
-const createStoreWithFirebase = compose(
-  applyMiddleware(
-    reduxThunk.withExtraArgument(getFirebase)
-  ),
-  reactReduxFirebase(firebase, rrfConfig), // firebase instance as first argument
-  // reduxFirestore(firebase) // <- needed if using firestore
-)(createStore)
-
+const middleware = applyMiddleware(
+  reduxThunk
+)
 
 export default ({ children, initialState = {} }) => {
-  const store = createStoreWithFirebase(
+  const store = createStore(
     reducers,
-    initialState
+    initialState,
+    middleware
   )
   return (
     <Provider store={store}>
