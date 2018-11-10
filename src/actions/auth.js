@@ -3,7 +3,6 @@ import * as alerts from 'utils/alerts'
 import * as types from 'actions/types'
 
 export const registerUser = (email, password) => dispatch => {
-  console.log(email, password)
   firebase.auth()
     .createUserWithEmailAndPassword(email, password)
     .catch(error => {
