@@ -10,6 +10,7 @@ import HeaderNav from 'components/common/HeaderNav'
 import SignUp from 'components/auth/SignUp'
 import "assets/styles/app.scss"
 import * as authActions from 'actions/auth'
+import * as alerts from 'utils/alerts'
 
 class App extends React.Component {
 
@@ -24,7 +25,12 @@ class App extends React.Component {
   }
 
   handleLogout = () => {
-    this.props.logout()
+    firebase.auth().signOut().then(function() {
+      this.props.changeAuth(false)
+      alerts.success('Successfully logged out')
+    }).catch(function(error) {
+      alerts.error(error.message)
+    })
   }
 
   render() {
