@@ -8,6 +8,11 @@ export default ({ isAuthed, handleLogout }) => (
       <Link to="/">Home</Link>
     </Menu.Item>
 
+    { isAuthed && (
+      <Menu.Item name='posts'>
+        <Link to="/posts">Posts</Link>
+      </Menu.Item>
+    )}
 
     <Menu.Menu position='right'>
       { isAuthed ? (

@@ -2,18 +2,6 @@ import firebase from 'firebase/app'
 import * as alerts from 'utils/alerts'
 import * as types from 'actions/types'
 
-export const registerUser = (email, password) => dispatch => {
-  return firebase.auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(res => {
-      dispatch(changeAuth(true))
-      // alerts.success('Successfully registered!')
-    })
-    .catch(error => {
-      // alerts.error(error.message)
-    })
-}
-
 export const changeAuth = (isAuthed) => ({
   type: types.CHANGE_AUTH,
   isAuthed: isAuthed
