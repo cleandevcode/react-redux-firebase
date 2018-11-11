@@ -1,6 +1,6 @@
 import React from 'react'
 import { Message, Grid, Container, Button } from 'semantic-ui-react'
-import { Redirect, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import firebase from 'firebase/app'
 import * as actions from 'actions/auth'
