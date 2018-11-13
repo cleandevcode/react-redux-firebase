@@ -26,12 +26,12 @@ class SignUp extends React.Component {
     firebase.auth()
       .createUserWithEmailAndPassword(email, password)
       .then(res => {
-        this.props.setAuth(true)
+        this.props.changeAuth(true)
         alerts.success('Successfully registered!')
         this.props.history.push("/posts")
       })
       .catch(error => {
-        this.props.setAuth(false)
+        this.props.changeAuth(false)
         alerts.error(error.message)
       })
   }
