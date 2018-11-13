@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import * as alerts from 'utils/alerts'
 
 export default (ChildComponent) => {
   class ComposedComponent extends React.Component {
@@ -15,6 +16,7 @@ export default (ChildComponent) => {
     shouldNavigateAway() {
       if (!this.props.auth) {
         this.props.history.push("/login")
+        alerts.error('You must be logged in to access this page.')
       }
     }
 
