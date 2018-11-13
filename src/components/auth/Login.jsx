@@ -26,12 +26,12 @@ class Login extends React.Component {
     firebase.auth()
       .signInWithEmailAndPassword(email, password)
       .then(res => {
-        this.props.changeAuth(true)
+        this.props.setAuth(true)
         alerts.success('Successfully logged in!')
         this.props.history.push("/posts")
       })
       .catch(error => {
-        this.props.changeAuth(false)
+        this.props.setAuth(false)
         alerts.error(error.message)
         actions.setSubmitting(false);
         actions.resetForm()

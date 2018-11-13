@@ -5,3 +5,9 @@ export const changeAuth = (isAuthed) => ({
   isAuthed: isAuthed
 })
 
+export const setAuth = (isAuthed) => dispatch => {
+  localStorage.setItem('isAuthed', isAuthed)
+  dispatch(changeAuth(isAuthed))
+}
+
+
