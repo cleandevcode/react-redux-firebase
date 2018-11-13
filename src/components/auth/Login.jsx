@@ -8,7 +8,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import * as alerts from 'utils/alerts'
 
-const SignupSchema = Yup.object().shape({
+const LoginSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email')
     .required('Required'),
@@ -18,16 +18,16 @@ const SignupSchema = Yup.object().shape({
     .required('Required'),
 })
 
-class SignUp extends React.Component {
+class Login extends React.Component {
 
   handleSubmit = (values, actions) => {
     actions.setSubmitting(true)
     const { email, password } = values
     firebase.auth()
-      .createUserWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email, password)
       .then(res => {
         this.props.changeAuth(true)
-        alerts.success('Successfully registered!')
+        alerts.success('Successfully logged in!')
         this.props.history.push("/posts")
       })
       .catch(error => {
@@ -44,13 +44,13 @@ class SignUp extends React.Component {
             <Formik
               initialValues={{email: '', password: ''}}
               onSubmit={this.handleSubmit}
-              validationSchema={SignupSchema}
+              validationSchema={LoginSchema}
               render={({ errors, touched, isSubmitting }) => (
                 <>
                   <Message
                     attached
-                    header='Sign Up'
-                    content='Fill out the form below to sign-up for a new account'
+                    header='Log In'
+                    content='Fill out the form below to log into your account'
                   />
                   <Form className="ui form attached fluid segment">
                     <div className='field'>
@@ -66,7 +66,7 @@ class SignUp extends React.Component {
                     <Button type='submit' disabled={isSubmitting}>Submit</Button>
                   </Form>
                   <Message attached='bottom' warning>
-                    Already signed up? <Link to="/login">Login here</Link> instead.
+                    Not signed up? <Link to="/signup">Sign up here</Link> instead.
                   </Message>
                 </>
               )}
@@ -82,4 +82,4 @@ const mapStateToProps = ({ auth }) => ({
   auth
 })
 
-export default connect(mapStateToProps, actions)(SignUp)
+export default connect(mapStateToProps, actions)(Login)

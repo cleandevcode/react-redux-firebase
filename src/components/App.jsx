@@ -8,6 +8,7 @@ import Home from 'components/Home'
 import Posts from 'components/Posts'
 import HeaderNav from 'components/common/HeaderNav'
 import SignUp from 'components/auth/SignUp'
+import Login from 'components/auth/Login'
 import "assets/styles/app.scss"
 import * as authActions from 'actions/auth'
 import * as alerts from 'utils/alerts'
@@ -25,8 +26,10 @@ class App extends React.Component {
   }
 
   handleLogout = () => {
+    // Grab history from props for this context
+    const { history } = this.props
     firebase.auth().signOut().then(function() {
-      this.props.changeAuth(false)
+      history.push('/login')
       alerts.success('Successfully logged out')
     }).catch(function(error) {
       alerts.error(error.message)
@@ -37,11 +40,12 @@ class App extends React.Component {
     const { auth } = this.props
     return (
       <div>
-        <HeaderNav isAuthed={auth} handleLogout={this.handleLogout}/>
+        <HeaderNav isAuthed={auth} onLogout={this.handleLogout}/>
         <section className="app-wrapper">
           <Route exact path="/" component={Home} />
           <Route path="/posts" component={Posts} />
           <Route path="/signup" component={SignUp} />
+          <Route path="/login" component={Login} />
         </section>
         <ToastContainer autoClose={false} transition={Zoom} />
       </div>
