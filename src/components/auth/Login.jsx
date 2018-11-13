@@ -33,6 +33,8 @@ class Login extends React.Component {
       .catch(error => {
         this.props.changeAuth(false)
         alerts.error(error.message)
+        actions.setSubmitting(false);
+        actions.resetForm()
       })
   }
 
@@ -45,7 +47,7 @@ class Login extends React.Component {
               initialValues={{email: '', password: ''}}
               onSubmit={this.handleSubmit}
               validationSchema={LoginSchema}
-              render={({ errors, touched, isSubmitting }) => (
+              render={({ errors, touched, isSubmitting, status }) => (
                 <>
                   <Message
                     attached
