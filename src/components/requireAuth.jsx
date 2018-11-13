@@ -15,8 +15,8 @@ export default (ChildComponent) => {
 
     shouldNavigateAway() {
       if (!this.props.auth) {
-        this.props.history.push("/login")
         alerts.error('You must be logged in to access this page.')
+        this.props.history.push("/login")
       }
     }
 
