@@ -10,4 +10,3 @@ export const setAuth = (isAuthed) => ({
   isAuthed: isAuthed
 })
 
-
