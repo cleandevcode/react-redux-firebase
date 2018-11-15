@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import requireAuth from 'components/requireAuth'
 import * as postsActions from 'actions/posts'
-import { Placeholder, Container, Table, Button} from 'semantic-ui-react'
+import { Placeholder, Container, Table, Button, Grid } from 'semantic-ui-react'
 
 class Posts extends React.Component {
   state = {
@@ -51,7 +51,12 @@ class Posts extends React.Component {
 
     return (
       <Container>
-        <h2>Posts</h2>
+        <Grid columns={2}>
+          <Grid.Column><h2>Posts</h2></Grid.Column>
+          <Grid.Column textAlign="right">
+            <Button primary>New Post</Button>
+          </Grid.Column>
+        </Grid>
         { this.state.loading ? this.renderPlaceholder() : (
           <Table>
             <Table.Header>
