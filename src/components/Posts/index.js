@@ -2,11 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 import requireAuth from 'components/requireAuth'
 import * as postsActions from 'actions/posts'
-import { Placeholder, Container, Table, Button, Grid } from 'semantic-ui-react'
+import { Container, Table, Button, Grid } from 'semantic-ui-react'
+import { PostsListPlaceholder } from 'components/common/placeholders'
+import PostRow from 'components/Posts/PostRow'
 
 class Posts extends React.Component {
+
   state = {
-    loading: true
+    loading: true,
+    showPostModal: false,
   }
 
   componentWillMount() {
@@ -15,49 +19,21 @@ class Posts extends React.Component {
     })
   }
 
-  renderPosts = () => {
-    const { posts } = this.props
-    console.log(posts)
-    return posts.map(p => (
-      <Table.Row key={p.id}>
-        <Table.Cell>{p.title}</Table.Cell>
-        <Table.Cell>{p.body}</Table.Cell>
-        <Table.Cell>
-          <Button.Group size='tiny'>
-            <Button>Edit</Button>
-            <Button icon='trash' negative />
-          </Button.Group>
-        </Table.Cell>
-      </Table.Row>
-    ))
-  }
-
-  renderPlaceholder() {
-    return (
-      <Placeholder>
-        <Placeholder.Paragraph>
-          <Placeholder.Line />
-          <Placeholder.Line />
-          <Placeholder.Line />
-          <Placeholder.Line />
-          <Placeholder.Line />
-        </Placeholder.Paragraph>
-      </Placeholder>
-    )
+  handleNew = () => {
+    this.setState({ showPostModal: true })
   }
 
   render() {
-    const { posts } = this.props
-
+    const { list } = this.props
     return (
       <Container>
         <Grid columns={2}>
           <Grid.Column><h2>Posts</h2></Grid.Column>
           <Grid.Column textAlign="right">
-            <Button primary>New Post</Button>
+            <Button primary onClick={this.handleNew}>New Post</Button>
           </Grid.Column>
         </Grid>
-        { this.state.loading ? this.renderPlaceholder() : (
+        { this.state.loading ? <PostsListPlaceholder /> : (
           <Table>
             <Table.Header>
               <Table.Row>
@@ -67,7 +43,9 @@ class Posts extends React.Component {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              { posts ? this.renderPosts() : (
+              { list ? list.map(post => (
+                <PostRow key={post.id} post={post} />
+              )) : (
                 <Table.Row>
                   <Table.Cell>No posts</Table.Cell>
                 </Table.Row>
@@ -81,7 +59,7 @@ class Posts extends React.Component {
 }
 
 const mapStateToProps = ({ posts }) => ({
-  posts
+  list: posts.list
 })
 
 export default connect(mapStateToProps, postsActions)(requireAuth(Posts))
