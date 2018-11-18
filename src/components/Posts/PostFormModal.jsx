@@ -29,9 +29,26 @@ class PostFormModal extends React.Component {
     this.form.submitForm()
   }
 
-  handleSubmit = (values, actions) => {
+  handleSubmit = (values, actions, postId) => {
     const { title, body } = values
-    firestore.collection('posts').add({
+    let response
+
+    if (postId) {
+      response = this.updatePost(postId, title, body)
+    } else {
+      response = this.addNewPost(title, body)
+    }
+
+    response.catch(error => {
+      alerts.error(error.message)
+      actions.setSubmitting(false);
+      actions.resetForm()
+      this.submitButton.ref.removeAttribute('disabled')
+    })
+  }
+
+  addNewPost(title, body) {
+    return firestore.collection('posts').add({
       title, body
     })
     .then(docRef => {
@@ -39,38 +56,45 @@ class PostFormModal extends React.Component {
       this.props.togglePostForm(false)
       alerts.success('Successfully created post!')
     })
-    .catch(error => {
-      alerts.error(error.message)
-      actions.setSubmitting(false);
-      actions.resetForm()
+  }
+
+  updatePost(postId, title, body) {
+    return firestore.collection('posts').doc(postId).update({
+      title, body
+    })
+    .then(() => { // no result response
+      this.props.updatePost({id: postId, title, body})
+      this.props.togglePostForm(false)
+      alerts.success('Successfully created post!')
     })
   }
 
   render() {
     const { posts } = this.props
     const { showModal, currentPost } = posts
+    const isEdit = currentPost.id
     return (
       <Modal open={showModal} closeIcon onClose={this.handleClose} size="tiny" centered={false}>
-        <Modal.Header>{currentPost.id ? 'Edit Post' : 'Create Post'}</Modal.Header>
+        <Modal.Header>{isEdit ? 'Edit Post' : 'Create Post'}</Modal.Header>
         <Modal.Content>
           <Modal.Description>
             <Header>New Post</Header>
             <Formik
               ref={node => this.form = node}
               initialValues={currentPost}
-              onSubmit={this.handleSubmit}
+              onSubmit={(values, actions) => this.handleSubmit(values, actions, currentPost.id)}
               validationSchema={PostSchema}
-              render={({ errors, touched, isSubmitting, status }) => (
-                <Form className="ui form" id="form">
+              render={({ values, isSubmitting }) => (
+                <Form className="ui form">
                   <div className='field'>
                     <label>Title</label>
-                    <Field type="text" name="title" value={currentPost.title} disabled={isSubmitting} />
+                    <Field type="text" name="title" value={isEdit ? values.title : currentPost.title} disabled={isSubmitting} />
                     <ErrorMessage name="title" component="div" />
                   </div>
 
                   <div className='field'>
                     <label>Body</label>
-                    <Field component="textarea" rows="3" name="body" value={currentPost.body} disabled={isSubmitting} />
+                    <Field component="textarea" rows="3" name="body" value={isEdit ? values.body : currentPost.body} disabled={isSubmitting} />
                     <ErrorMessage name="body" component="div" />
                   </div>
                 </Form>
