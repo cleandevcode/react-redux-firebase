@@ -16,3 +16,7 @@ export const fetchPosts = () => dispatch => {
 export const setPosts = (list) => ({
   type: types.SET_POSTS, list
 })
+
+export const togglePostForm = (isOpen, post = {}) => ({
+  type: types.TOGGLE_POST_FORM, isOpen, post
+})

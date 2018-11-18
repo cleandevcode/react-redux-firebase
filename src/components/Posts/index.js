@@ -5,6 +5,7 @@ import * as postsActions from 'actions/posts'
 import { Container, Table, Button, Grid } from 'semantic-ui-react'
 import { PostsListPlaceholder } from 'components/common/placeholders'
 import PostRow from 'components/Posts/PostRow'
+import PostFormModal from 'components/Posts/PostFormModal'
 
 class Posts extends React.Component {
 
@@ -20,11 +21,12 @@ class Posts extends React.Component {
   }
 
   handleNew = () => {
-    this.setState({ showPostModal: true })
+    this.props.togglePostForm(true)
   }
 
   render() {
-    const { list } = this.props
+    const { posts } = this.props
+    const { list, showModal, currentPost } = posts
     return (
       <Container>
         <Grid columns={2}>
@@ -53,13 +55,14 @@ class Posts extends React.Component {
             </Table.Body>
           </Table>
         )}
+        <PostFormModal post={currentPost} />
       </Container>
     )
   }
 }
 
 const mapStateToProps = ({ posts }) => ({
-  list: posts.list
+  posts
 })
 
 export default connect(mapStateToProps, postsActions)(requireAuth(Posts))
