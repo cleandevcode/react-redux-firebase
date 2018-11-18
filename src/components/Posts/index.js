@@ -55,7 +55,7 @@ class Posts extends React.Component {
             </Table.Body>
           </Table>
         )}
-        <PostFormModal post={currentPost} />
+        <PostFormModal />
       </Container>
     )
   }
