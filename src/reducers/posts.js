@@ -3,7 +3,11 @@ import * as types from 'actions/types'
 const initialState = {
   list: [],
   showModal: false,
-  currentPost: {}
+  currentPost: {
+    id: '',
+    title: '',
+    body: ''
+  }
 }
 export default (posts = initialState, action) => {
   switch (action.type) {
