@@ -24,3 +24,7 @@ export const togglePostForm = (isOpen, post = {}) => ({
 export const addPost = (newPost) => ({
   type: types.ADD_POST, newPost
 })
+
+export const updatePost = (post) => ({
+  type: types.UPDATE_POST, post
+})
