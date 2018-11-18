@@ -20,3 +20,7 @@ export const setPosts = (list) => ({
 export const togglePostForm = (isOpen, post = {}) => ({
   type: types.TOGGLE_POST_FORM, isOpen, post
 })
+
+export const addPost = (newPost) => ({
+  type: types.ADD_POST, newPost
+})

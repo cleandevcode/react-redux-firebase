@@ -3,8 +3,9 @@ import { Header, Modal, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-
 import * as postsActions from 'actions/posts'
+import firestore from 'utils/firebase/firestore'
+import * as alerts from 'utils/alerts'
 
 const PostSchema = Yup.object().shape({
   title: Yup.string()
@@ -29,19 +30,27 @@ class PostFormModal extends React.Component {
   }
 
   handleSubmit = (values, actions) => {
-    console.group('Post Form Submission')
-    console.log('actions:', actions)
-    console.log('values:', JSON.stringify(values, null, 2))
-    console.groupEnd()
-    this.submitButton.ref.removeAttribute('disabled', false)
-    actions.setSubmitting(false)
+    const { title, body } = values
+    firestore.collection('posts').add({
+      title, body
+    })
+    .then(docRef => {
+      this.props.addPost({id: docRef.id, title, body})
+      this.props.togglePostForm(false)
+      alerts.success('Successfully created post!')
+    })
+    .catch(error => {
+      alerts.error(error.message)
+      actions.setSubmitting(false);
+      actions.resetForm()
+    })
   }
 
   render() {
     const { posts } = this.props
     const { showModal, currentPost } = posts
     return (
-      <Modal open={showModal} closeIcon onClose={this.handleClose} size="tiny">
+      <Modal open={showModal} closeIcon onClose={this.handleClose} size="tiny" centered={false}>
         <Modal.Header>{currentPost.id ? 'Edit Post' : 'Create Post'}</Modal.Header>
         <Modal.Content>
           <Modal.Description>

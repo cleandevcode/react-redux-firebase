@@ -26,7 +26,7 @@ class Posts extends React.Component {
 
   render() {
     const { posts } = this.props
-    const { list, showModal, currentPost } = posts
+    const { list } = posts
     return (
       <Container>
         <Grid columns={2}>
