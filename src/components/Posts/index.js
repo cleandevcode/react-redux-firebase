@@ -11,7 +11,6 @@ class Posts extends React.Component {
 
   state = {
     loading: true,
-    showPostModal: false,
   }
 
   componentWillMount() {
