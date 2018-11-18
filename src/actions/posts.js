@@ -28,3 +28,4 @@ export const addPost = (newPost) => ({
 export const updatePost = (post) => ({
   type: types.UPDATE_POST, post
 })
+
