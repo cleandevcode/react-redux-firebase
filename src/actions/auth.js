@@ -1,12 +1,12 @@
-import * as types from 'actions/types'
+import * as types from "actions/types";
 
-export const changeAuth = (isAuthed) => dispatch => {
-  localStorage.setItem('isAuthed', isAuthed)
-  dispatch(setAuth(isAuthed))
-}
+export const changeAuth = (isAuthed, userRole) => (dispatch) => {
+  localStorage.setItem("isAuthed", isAuthed);
+  dispatch(setAuth(isAuthed, userRole));
+};
 
-export const setAuth = (isAuthed) => ({
+export const setAuth = (isAuthed, userRole) => ({
   type: types.SET_AUTH,
-  isAuthed: isAuthed
-})
-
+  isAuthed: isAuthed,
+  userRole: userRole,
+});

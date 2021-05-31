@@ -6,14 +6,12 @@ class Home extends React.Component {
     return (
       <Container>
         <h2>Management Tool</h2>
-        <div>
-          <h3>Short Summary</h3>
-          <p>
-            This app is designed for project manager to control the working
-            hours for a company's employees.
-          </p>
-          <p className="text-right">Version: 0.0.1</p>
-        </div>
+
+        <p className="mt-5">
+          This app is designed for project manager to control the working hours
+          for a company's employees.
+        </p>
+        <p>Version: 0.0.1</p>
       </Container>
     );
   }
