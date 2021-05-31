@@ -4,14 +4,14 @@ import { connect } from "react-redux";
 import { ToastContainer, Zoom } from "react-toastify";
 import firebase from "firebase/app";
 
-import Home from "components/Home";
-import Posts from "components/Posts";
-import HeaderNav from "components/common/HeaderNav";
-import SignUp from "components/auth/SignUp";
-import Login from "components/auth/Login";
-import "assets/styles/app.scss";
-import * as authActions from "actions/auth";
-import * as alerts from "utils/alerts";
+import Home from "./Home";
+import Posts from "./Posts";
+import HeaderNav from "./common/HeaderNav";
+import SignUp from "./auth/SignUp";
+import Login from "./auth/Login";
+import "../assets/styles/app.scss";
+import * as authActions from "../actions/auth";
+import * as alerts from "../utils/alerts";
 
 class App extends React.Component {
   UNSAFE_componentWillMount() {

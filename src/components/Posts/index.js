@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import requireAuth from "components/requireAuth";
+import requireAuth from "../../components/requireAuth";
 import { fetchPosts, togglePostForm } from "../../actions/posts";
 import { getUserRoleByUID } from "../../actions/auth";
 import { Container, Table, Button, Grid } from "semantic-ui-react";
-import { PostsListPlaceholder } from "components/common/placeholders";
-import PostRow from "components/Posts/PostRow";
-import PostFormModal from "components/Posts/PostFormModal";
+import { PostsListPlaceholder } from "../../components/common/placeholders";
+import PostRow from "../../components/Posts/PostRow";
+import PostFormModal from "../../components/Posts/PostFormModal";
 
 class Posts extends React.Component {
   state = {
@@ -19,7 +19,7 @@ class Posts extends React.Component {
     });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.getUserRoleByUID(this.props.userId);
   }
 
@@ -29,6 +29,7 @@ class Posts extends React.Component {
 
   render() {
     const { posts, role } = this.props;
+    console.log("posts => ", posts);
     return (
       <Container>
         <Grid columns={2}>
@@ -52,6 +53,7 @@ class Posts extends React.Component {
                 <Table.HeaderCell>End Time</Table.HeaderCell>
                 <Table.HeaderCell>Launch Time</Table.HeaderCell>
                 <Table.HeaderCell>Break Time</Table.HeaderCell>
+                <Table.HeaderCell>Controls</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>

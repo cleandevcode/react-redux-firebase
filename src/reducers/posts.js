@@ -1,16 +1,18 @@
-import * as types from "actions/types";
+import * as types from "../actions/types";
 
 const initialState = {
   list: [],
   showModal: false,
   currentPost: {
     id: "",
-    title: "",
-    body: "",
+    start: "",
+    end: "",
+    startLaunch: "",
+    endLaunch: "",
+    breakTime: []
   },
 };
 export default (posts = initialState, action) => {
-  console.log("<<<actions<<<<", action);
   switch (action.type) {
     case types.SET_POSTS:
       return { ...posts, list: action.list };
@@ -24,9 +26,23 @@ export default (posts = initialState, action) => {
         ...posts,
         list: [
           ...posts.list.filter((p) => p !== post),
-          { ...post, title: action.post.title, body: action.post.body },
+          { 
+            ...post, 
+            start: action.post.start, 
+            end: action.post.end, 
+            startLaunch: action.post.startLaunch,
+            endLaunch: action.post.endLaunch,
+            breakTime: action.post.breakTime 
+          },
         ],
-        currentPost: { id: "", title: "", body: "" },
+        currentPost: { 
+          id: "", 
+          start: action.post.start, 
+          end: action.post.end, 
+          startLaunch: action.post.startLaunch,
+          endLaunch: action.post.endLaunch,
+          breakTime: action.post.breakTime 
+        },
       };
     default:
       return posts;

@@ -1,13 +1,13 @@
-import * as types from 'actions/types'
-import firestore from 'utils/firebase/firestore'
+import * as types from '../actions/types'
+import firestore from '../utils/firebase/firestore'
 
 export const fetchPosts = () => dispatch => {
   const list = []
   return firestore.collection("posts").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       let data = doc.data()
-      let { title, body } = data
-      list.push({ id: doc.id, title: title, body: body })
+      let { start, end, startLaunch, endLaunch, breakTime } = data;
+      list.push({ id: doc.id, start, end, breakTime, startLaunch, endLaunch });
     })
     dispatch(setPosts(list))
   })

@@ -3,10 +3,10 @@ import { Message, Grid, Container, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import firebase from "firebase/app";
-import * as actions from "actions/auth";
+import * as actions from "../../actions/auth";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import * as alerts from "utils/alerts";
+import * as alerts from "../../utils/alerts";
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
@@ -26,7 +26,6 @@ class SignUp extends React.Component {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((res) => {
-        console.log("sign up res>>>", res);
         if (res) {
           const { email, uid } = res.user;
           firebase

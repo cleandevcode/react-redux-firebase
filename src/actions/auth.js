@@ -1,5 +1,5 @@
-import * as types from "actions/types";
-import firestore from "utils/firebase/firestore";
+import * as types from "../actions/types";
+import firestore from "../utils/firebase/firestore";
 
 export const changeAuth = (isAuthed) => (dispatch) => {
   localStorage.setItem("isAuthed", isAuthed);
@@ -18,7 +18,6 @@ export const getUserRoleByUID = (uid) => (dispatch) => {
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        console.log("1111", doc.data());
         const data = doc.data();
         lists.push(data);
         if (doc.data().id === uid) {

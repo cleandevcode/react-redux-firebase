@@ -1,4 +1,4 @@
-import { SET_AUTH, SET_ROLE, SET_USER, SET_USERS } from "actions/types";
+import { SET_AUTH, SET_ROLE, SET_USER, SET_USERS } from "../actions/types";
 
 const initState = {
   isAuthed: localStorage.getItem("isAuthed") || false,

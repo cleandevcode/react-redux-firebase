@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import * as alerts from 'utils/alerts'
+import * as alerts from '../utils/alerts'
 
 export default (ChildComponent) => {
   class ComposedComponent extends React.Component {
