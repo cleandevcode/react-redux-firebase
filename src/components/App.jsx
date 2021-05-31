@@ -44,7 +44,7 @@ class App extends React.Component {
     const { auth } = this.props;
     return (
       <div>
-        <HeaderNav isAuthed={auth} handleLogout={this.handleLogout} />
+        <HeaderNav isAuthed={auth.isAuthed} handleLogout={this.handleLogout} />
         <section className="app-wrapper">
           <Route exact path="/" component={Home} />
           <Route path="/posts" component={Posts} />
