@@ -26,7 +26,12 @@ class Login extends React.Component {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
+        console.log(">>>>login res>>>", res);
+        const { uid } = res.user;
         this.props.changeAuth(true);
+        localStorage.setItem("user", uid);
+
+        this.props.getUserRoleByUID(uid);
         alerts.success("Successfully logged in!");
         this.props.history.push("/posts");
       })

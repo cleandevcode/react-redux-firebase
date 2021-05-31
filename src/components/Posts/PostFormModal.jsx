@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, Modal, Button } from "semantic-ui-react";
+import { Modal, Button } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -8,17 +8,32 @@ import firestore from "utils/firebase/firestore";
 import * as alerts from "utils/alerts";
 
 const PostSchema = Yup.object().shape({
-  title: Yup.string()
-    .min(3, "Too Short!")
-    .max(100, "Too Long!")
-    .required("Required"),
-  body: Yup.string()
-    .min(3, "Too Short!")
-    .max(300, "Too Long!")
-    .required("Required"),
+  start: Yup.string().required("Required"),
+  end: Yup.string().required("Required"),
+  startLaunch: Yup.string(),
+  endLaunch: Yup.string(),
+  break: [
+    {
+      startBreak: Yup.string(),
+      endBreak: Yup.string(),
+    },
+  ],
 });
 
 class PostFormModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      numberOfBreaks: [0],
+    };
+  }
+
+  handleAddBreakTime = () => {
+    let length = this.state.numberOfBreaks;
+    length.push(this.state.numberOfBreaks.length + 1);
+    this.setState({ numberOfBreaks: length });
+  };
+
   handleClose = (e) => {
     this.props.togglePostForm(false);
   };
@@ -29,13 +44,12 @@ class PostFormModal extends React.Component {
   };
 
   handleSubmit = (values, actions, postId) => {
-    const { title, body } = values;
     let response;
 
     if (postId) {
-      response = this.updatePost(postId, title, body);
+      response = this.updatePost(postId, values);
     } else {
-      response = this.addNewPost(title, body);
+      response = this.addNewPost(values);
     }
 
     response.catch((error) => {
@@ -46,18 +60,26 @@ class PostFormModal extends React.Component {
     });
   };
 
-  addNewPost(title, body) {
-    return firestore
-      .collection("posts")
-      .add({
-        title,
-        body,
-      })
-      .then((docRef) => {
-        this.props.addPost({ id: docRef.id, title, body });
-        this.props.togglePostForm(false);
-        alerts.success("Successfully created post!");
-      });
+  addNewPost(values) {
+    console.log(">>>>>>>>>>>>>..", values);
+    // return firestore
+    //   .collection("posts")
+    //   .add({
+    //     userId: this.props.userId,
+    //     start: values.start,
+    //     end: values.end,
+    //     startLaunch: values.startLaunch,
+    //     endLaunch: values.endLaunch,
+    //     break: values.break
+    //   })
+    //   .then((docRef) => {
+    //     this.props.addPost({
+    //       id: docRef.id,
+    //       values,
+    //     });
+    //     this.props.togglePostForm(false);
+    //     alerts.success("Successfully created post!");
+    //   });
   }
 
   updatePost(postId, title, body) {
@@ -77,8 +99,7 @@ class PostFormModal extends React.Component {
   }
 
   render() {
-    const { posts } = this.props;
-    const { showModal, currentPost } = posts;
+    const { posts, showModal, currentPost, role } = this.props;
     const isEdit = currentPost.id;
     return (
       <Modal
@@ -91,7 +112,6 @@ class PostFormModal extends React.Component {
         <Modal.Header>{isEdit ? "Edit Post" : "Create Post"}</Modal.Header>
         <Modal.Content>
           <Modal.Description>
-            <Header>New Post</Header>
             <Formik
               ref={(node) => (this.form = node)}
               initialValues={currentPost}
@@ -102,26 +122,134 @@ class PostFormModal extends React.Component {
               render={({ values, isSubmitting }) => (
                 <Form className="ui form">
                   <div className="field">
-                    <label>Title</label>
+                    <label>Start Time:</label>
                     <Field
-                      type="text"
-                      name="title"
-                      value={isEdit ? values.title : currentPost.title}
+                      type="time"
+                      name="start"
+                      value={isEdit ? values.start : currentPost.start}
                       disabled={isSubmitting}
                     />
-                    <ErrorMessage name="title" component="div" />
+                    <ErrorMessage
+                      name="start"
+                      component="div"
+                      className="dangerText"
+                    />
                   </div>
-
                   <div className="field">
-                    <label>Body</label>
+                    <label>End Time:</label>
                     <Field
-                      component="textarea"
-                      rows="3"
-                      name="body"
-                      value={isEdit ? values.body : currentPost.body}
+                      type="time"
+                      name="end"
+                      value={isEdit ? values.end : currentPost.end}
                       disabled={isSubmitting}
                     />
-                    <ErrorMessage name="body" component="div" />
+                    <ErrorMessage
+                      name="end"
+                      component="div"
+                      className="dangerText"
+                    />
+                  </div>
+                  <div className="field">
+                    <label>Launch Time:</label>
+                    <div className="d-flex justify-content-between">
+                      <div>
+                        <div className="d-flex">
+                          <label className="mr-2">Start Time:</label>
+                          <Field
+                            type="time"
+                            name="startLaunch"
+                            value={
+                              isEdit
+                                ? values.startLaunch
+                                : currentPost.startLaunch
+                            }
+                            disabled={isSubmitting}
+                          />
+                        </div>
+                        <ErrorMessage
+                          name="startLaunch"
+                          component="div"
+                          className="dangerText"
+                        />
+                      </div>
+                      <div>
+                        <div className="d-flex">
+                          <label className="mr-2">End Time:</label>
+                          <Field
+                            type="time"
+                            name="endLaunch"
+                            value={
+                              isEdit ? values.endLaunch : currentPost.endLaunch
+                            }
+                            disabled={isSubmitting}
+                          />
+                        </div>
+                        <ErrorMessage
+                          name="endLaunch"
+                          component="div"
+                          className="dangerText"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="field">
+                    <Field name="break">
+                      <label>Break Time:</label>
+                      {this.state.numberOfBreaks.map((item) => (
+                        <div
+                          className="d-flex justify-content-between mb-2"
+                          key={item}
+                        >
+                          <div>
+                            <div className="d-flex">
+                              <label className="mr-2">Start Time:</label>
+                              <Field
+                                type="time"
+                                name="startBreak"
+                                value={
+                                  isEdit
+                                    ? values.startBreak
+                                    : currentPost.startBreak
+                                }
+                                disabled={isSubmitting}
+                              />
+                            </div>
+                            <ErrorMessage
+                              name="startBreak"
+                              component="div"
+                              className="dangerText"
+                            />
+                          </div>
+                          <div>
+                            <div className="d-flex">
+                              <label className="mr-2">End Time:</label>
+                              <Field
+                                type="time"
+                                name="endBreak"
+                                value={
+                                  isEdit
+                                    ? values.endBreak
+                                    : currentPost.endBreak
+                                }
+                                disabled={isSubmitting}
+                              />
+                            </div>
+                            <ErrorMessage
+                              name="endBreak"
+                              component="div"
+                              className="dangerText"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </Field>
+                    <div
+                      className="d-flex justify-content-end"
+                      style={{ cursor: "pointer" }}
+                      onClick={this.handleAddBreakTime}
+                    >
+                      + Add Item
+                    </div>
                   </div>
                 </Form>
               )}
@@ -142,8 +270,16 @@ class PostFormModal extends React.Component {
   }
 }
 
-const mapStateToProps = ({ posts }) => ({
-  posts,
-});
+const mapStateToProps = (state) => {
+  console.log(">>>>", state);
+  return {
+    posts: state.posts.list,
+    users: state.auth.users,
+    userId: state.auth.user,
+    role: state.auth.userRole,
+    showModal: state.posts.showModal,
+    currentPost: state.posts.currentPost,
+  };
+};
 
 export default connect(mapStateToProps, postsActions)(PostFormModal);

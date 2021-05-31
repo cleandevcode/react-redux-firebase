@@ -25,7 +25,6 @@ class App extends React.Component {
   }
 
   handleLogout = () => {
-    // Grab history from props for this context
     const { history } = this.props;
     firebase
       .auth()
@@ -33,6 +32,8 @@ class App extends React.Component {
       .then(function() {
         history.push("/login");
         alerts.success("Successfully logged out");
+        localStorage.removeItem("user");
+        localStorage.removeItem("isAuthed");
       })
       .catch(function(error) {
         alerts.error(error.message);

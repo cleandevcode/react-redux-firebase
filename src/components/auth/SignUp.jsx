@@ -43,13 +43,15 @@ class SignUp extends React.Component {
             .catch((error) => {
               console.log("error>", error);
             });
-          this.props.changeAuth(true, 1);
+          this.props.changeAuth(true);
+          this.props.changeUserRole(1, email);
           alerts.success("Successfully registered!");
           this.props.history.push("/posts");
         }
       })
       .catch((error) => {
-        this.props.changeAuth(false, -1);
+        this.props.changeAuth(false);
+        this.props.changeUserRole(-1, null);
         alerts.error(error.message);
       });
   };
